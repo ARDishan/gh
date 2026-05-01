@@ -1,31 +1,82 @@
 import 'package:flutter/material.dart';
 
 class AppSizes {
-  static double screenWidth(BuildContext context) =>
-      MediaQuery.of(context).size.width;
+  AppSizes._();
 
-  static double screenHeight(BuildContext context) =>
-      MediaQuery.of(context).size.height;
+  static late MediaQueryData _mediaQuery;
+  static late double _screenWidth;
+  static late double _screenHeight;
 
-  static double paddingSmall = 8.0;
-  static double paddingMedium = 16.0;
-  static double paddingLarge = 24.0;
-
-  static double responsiveFontSize(BuildContext context, double baseSize) {
-    double width = screenWidth(context);
-    if (width < 360) return baseSize * 0.9;
-    if (width > 600) return baseSize * 1.2;
-    return baseSize;
+  static void init(BuildContext context) {
+    _mediaQuery = MediaQuery.of(context);
+    _screenWidth = _mediaQuery.size.width;
+    _screenHeight = _mediaQuery.size.height;
   }
 
-  //sized box
+  // Screen dimensions
+  static double get screenWidth => _screenWidth;
+  static double get screenHeight => _screenHeight;
+  static EdgeInsets get viewPadding => _mediaQuery.viewPadding;
+  static EdgeInsets get viewInsets => _mediaQuery.viewInsets;
 
-  static const SizedBox h10 = SizedBox(height: 10);
-  static const SizedBox h16 = SizedBox(height: 16);
-  static const SizedBox h20 = SizedBox(height: 20);
-  static const SizedBox h40 = SizedBox(height: 40);
+  // Responsive width helpers
+  static double wp(double percent) => _screenWidth * percent / 100;
+  static double hp(double percent) => _screenHeight * percent / 100;
 
-  static const SizedBox w10 = SizedBox(width: 10);
-  static const SizedBox w20 = SizedBox(width: 20);
-  static const SizedBox w40 = SizedBox(width: 40);
+  // Base spacing (8px grid)
+  static const double xs = 4.0;
+  static const double sm = 8.0;
+  static const double md = 16.0;
+  static const double lg = 24.0;
+  static const double xl = 32.0;
+  static const double xxl = 48.0;
+  static const double xxxl = 64.0;
+
+  // Icon sizes
+  static const double iconXs = 14.0;
+  static const double iconSm = 18.0;
+  static const double iconMd = 24.0;
+  static const double iconLg = 32.0;
+  static const double iconXl = 48.0;
+
+  // Border radius
+  static const double radiusXs = 4.0;
+  static const double radiusSm = 8.0;
+  static const double radiusMd = 12.0;
+  static const double radiusLg = 16.0;
+  static const double radiusXl = 24.0;
+  static const double radiusXxl = 32.0;
+  static const double radiusFull = 100.0;
+
+  // Component heights
+  static const double buttonHeightLg = 56.0;
+  static const double buttonHeightMd = 48.0;
+  static const double buttonHeightSm = 40.0;
+  static const double inputHeight = 56.0;
+  static const double appBarHeight = 64.0;
+  static const double bottomNavHeight = 70.0;
+  static const double cardHeight = 220.0;
+
+  // Padding presets
+  static const EdgeInsets pagePadding =
+      EdgeInsets.symmetric(horizontal: md, vertical: lg);
+  static const EdgeInsets horizontalPadding =
+      EdgeInsets.symmetric(horizontal: md);
+  static const EdgeInsets cardPadding = EdgeInsets.all(md);
+
+  // Elevation
+  static const double elevationSm = 2.0;
+  static const double elevationMd = 4.0;
+  static const double elevationLg = 8.0;
+  static const double elevationXl = 16.0;
+
+  // Breakpoints
+  static const double mobileBreakpoint = 600.0;
+  static const double tabletBreakpoint = 900.0;
+  static const double desktopBreakpoint = 1200.0;
+
+  static bool get isMobile => _screenWidth < mobileBreakpoint;
+  static bool get isTablet =>
+      _screenWidth >= mobileBreakpoint && _screenWidth < tabletBreakpoint;
+  static bool get isDesktop => _screenWidth >= tabletBreakpoint;
 }

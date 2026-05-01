@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:gh/routes/app_routes.dart';
-import 'package:gh/utils/theme/colors.dart';
-import 'package:gh/utils/theme/fonts.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'routes/app_routes.dart';
+import 'services/bloc/auth/auth_bloc.dart';
+import 'utils/theme/app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ),
+  );
+  runApp(const GHRealEstateApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class GHRealEstateApp extends StatelessWidget {
+  const GHRealEstateApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'BILLZAPP',
-      routerConfig: appRouter,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: AppColors.primary,
-        colorScheme: const ColorScheme.light(
-          primary: AppColors.primary,
-          secondary: AppColors.secondary,
-        ),
-        fontFamily: AppFonts.fontRegular,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(create: (_) => AuthBloc()),
+      ],
+      child: MaterialApp(
+        title: 'GH Real Estate',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        initialRoute: AppRoutes.splash,
+        onGenerateRoute: AppRoutes.generateRoute,
       ),
     );
   }
